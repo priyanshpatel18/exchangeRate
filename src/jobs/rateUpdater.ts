@@ -5,6 +5,10 @@ import { fetchLatestConversionRates } from "../services/externalApiService";
 export async function updateRates() {
   const latestRates = await fetchLatestConversionRates();
 
+  if (latestRates) {
+    await redis.flushdb();
+  }
+
   Object.keys(latestRates).forEach(async (key) => {
     // Update Database
     await prisma.exchangeRate.upsert({
