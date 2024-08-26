@@ -8,15 +8,16 @@ export const getExchangeRateController = async (req: Request, res: Response) => 
 
   try {
     // Get Exchange Rate from Redis
-    const exchangeRate = await getExchangeRate(currency);
-    if (!exchangeRate) {
+    const response = await getExchangeRate(currency);
+    if (!response?.exchangeRate) {
       return res.status(404).json({ message: "Invalid Currency" });
     }
 
     if (value && !isNaN(value)) {
-      return res.status(200).json({ currency, data: exchangeRate, value: exchangeRate * value });
+      const amount = response.multiplier * response.exchangeRate * value
+      return res.status(200).json({ currency, data: response.exchangeRate, value: amount });
     } else {
-      return res.status(200).json({ currency, data: exchangeRate });
+      return res.status(200).json({ currency, data: response.exchangeRate });
     }
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });

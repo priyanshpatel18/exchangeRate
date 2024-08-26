@@ -11,5 +11,6 @@ model ExchangeRate {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   currency    String   @unique
   rate        Float
+  multiplier  Int
   lastUpdated DateTime @default(now())
 }

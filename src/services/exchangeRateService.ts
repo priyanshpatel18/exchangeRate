@@ -9,7 +9,10 @@ export async function getExchangeRate(currency: string) {
     if (!rate) {
       return null;
     } if (!checkExpiredRates(new Date(rate.lastUpdated))) {
-      return rate.data;
+      return {
+        exchangeRate: rate.data,
+        multiplier: rate.multiplier,
+      };
     }
 
     // Update Database
@@ -17,7 +20,10 @@ export async function getExchangeRate(currency: string) {
     rate = await redis.get(currency);
 
     if (rate) {
-      return rate.data;
+      return {
+        exchangeRate: rate.data,
+        multiplier: rate.multiplier,
+      };
     }
     return null;
   } catch (error) {
