@@ -25,9 +25,9 @@ export const getExchangeRateController = async (req: Request, res: Response) => 
 
     if (value && !isNaN(value)) {
       const amount = response.multiplier * response.exchangeRate * value
-      return res.status(200).json({ currency, data: response.exchangeRate, value: amount });
+      return res.status(200).json({ currency, exchangeRate: response.exchangeRate, value: amount });
     } else {
-      return res.status(200).json({ currency, data: response.exchangeRate });
+      return res.status(200).json({ currency, exchangeRate: response.exchangeRate });
     }
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });
