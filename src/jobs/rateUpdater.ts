@@ -2,7 +2,7 @@ import prisma from "../config/db";
 import redis from "../config/redis";
 import { fetchLatestConversionRates } from "../services/externalApiService";
 
-const famousCurrencies = ["USD", "EUR", "GBP", "JPY", "AUD", "CAD", "CHF", "CNY", "INR", "NZD"];
+export const famousCurrencies = ["USD", "EUR", "GBP", "JPY", "AUD", "CAD", "CHF", "CNY", "INR", "NZD", "AED"];
 
 export async function updateRates() {
   const latestRates = await fetchLatestConversionRates();
@@ -36,7 +36,7 @@ export async function updateRates() {
       });
 
       // Set Exchange Rate in Redis
-      redis.set(key, JSON.stringify({ data: latestRates[key], lastUpdated: new Date(), multiplier }));
+      redis.set(key, JSON.stringify({ currency: key, rate: latestRates[key], lastUpdated: new Date(), multiplier }));
     }
   });
 }

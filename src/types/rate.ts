@@ -1,5 +1,6 @@
 export interface Rate {
-  data: number;
+  currency: string;
+  rate: number;
   multiplier: number;
   lastUpdated: Date;
 }

@@ -1,5 +1,15 @@
 import { Request, Response } from "express";
-import { getExchangeRate } from "../services/exchangeRateService";
+import { getAllRates, getExchangeRate } from "../services/exchangeRateService";
+
+export const getAllRatesController = async (req: Request, res: Response) => {
+  try {
+    const response = await getAllRates();
+
+    return res.status(200).json({ data: response });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
 
 export const getExchangeRateController = async (req: Request, res: Response) => {
   // Get Currency from params
