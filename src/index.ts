@@ -9,7 +9,10 @@ const app = express();
 
 app.use(express.json());
 app.use("/api", exchangeRateRoutes);
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  credentials: true
+}));
 app.use(errorHandler);
 
 const PORT = process.env.PORT;
