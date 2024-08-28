@@ -8,11 +8,11 @@ import cors from "cors";
 const app = express();
 
 app.use(express.json());
-app.use("/api", exchangeRateRoutes);
 app.use(cors({
   origin: "*",
   credentials: true
 }));
+app.use("/api", exchangeRateRoutes);
 app.use(errorHandler);
 
 const PORT = process.env.PORT;
