@@ -13,7 +13,7 @@ interface ExchangeRate {
 async function fetchRatesFromRedis(): Promise<Rate[] | null> {
   try {
     const ratesData = await redis.mget(famousCurrencies);
-    if (!ratesData || !Array.isArray(ratesData)) {
+    if (!ratesData) {
       return null;
     }
     return ratesData.filter((rate): rate is Rate => rate !== null);
@@ -35,7 +35,6 @@ function formatRates(rates: Rate[]): ExchangeRate[] {
 export async function getAllRates() {
   try {
     let rates = await fetchRatesFromRedis();
-
     if (rates && rates.length > 0 && !checkExpiredRates(new Date(rates[0].lastUpdated))) {
       return formatRates(rates);
     }
